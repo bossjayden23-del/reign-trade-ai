@@ -1,0 +1,21 @@
+{
+  "name": "REIGN TRADE AI Devcontainer",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/python": { "version": "3.11" },
+    "ghcr.io/devcontainers/features/node": { "version": "20" },
+    "ghcr.io/devcontainers/features/flutter": { "version": "stable" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Dart-Code.flutter",
+        "Dart-Code.dart-code",
+        "ms-python.python",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "postCreateCommand": "./scripts/setup-dev.sh",
+  "remoteUser": "vscode"
+}

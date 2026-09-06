@@ -1,0 +1,39 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+
+# Python
+venv/
+venv3.*/
+.Python
+
+# Flutter/Dart
+.dart_tool/
+.packages
+.pub/
+build/
+ios/Flutter/Flutter.framework/
+android/.gradle/
+## Android Studio
+*.iml
+.idea/
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+
+# Codespaces
+.codespaces/
+
+# Logs
+*.log
+
+# Assets
+assets/**/Thumbs.db
