@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../widgets/crown_logo.dart';
 import '../widgets/energy_core.dart';
 import '../widgets/status_bar.dart';
 import '../widgets/nav_card.dart';
+import '../widgets/market_panel.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -53,7 +55,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               const CrownLogo(),
               const SizedBox(height: 8),
               const StatusBar(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 16),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: MarketPanel(),
+              ),
+              const SizedBox(height: 16),
               const Expanded(
                 child: Center(child: EnergyCore()),
               ),
