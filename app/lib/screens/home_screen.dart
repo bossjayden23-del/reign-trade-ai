@@ -1,133 +1,74 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/crown_logo.dart';
-import '../widgets/energy_core.dart';
-import '../widgets/status_bar.dart';
-import '../widgets/nav_card.dart';
-import '../widgets/market_panel.dart';
+import '../widgets/live_clock.dart';
+import '../widgets/connection_status.dart';
+import '../widgets/ai_core.dart';
+import '../widgets/market_card.dart';
+import '../widgets/guardian_shield.dart';
+import '../widgets/bottom_nav.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  int _selectedIndex = 0;
-
-  late final AnimationController _fadeController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 800),
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    _fadeController.forward();
-  }
-
-  @override
-  void dispose() {
-    _fadeController.dispose();
-    super.dispose();
-  }
-
-  void _onNavTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(['Trade', 'Wallet', 'AI', 'Settings'][index] + ' tapped (placeholder)')),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
+    const symbols = ['R_10', 'R_25', 'R_50', 'R_75', 'R_100'];
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: FadeTransition(
-        opacity: _fadeController,
-        child: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 12),
-              const CrownLogo(),
-              const SizedBox(height: 8),
-              const StatusBar(),
-              const SizedBox(height: 16),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: MarketPanel(),
+      backgroundColor: const Color(0xFF05070D),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(height: 12),
+            const CrownLogo(),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  LiveClock(),
+                  ConnectionStatus(),
+                ],
               ),
-              const SizedBox(height: 16),
-              const Expanded(
-                child: Center(child: EnergyCore()),
+            ),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Expanded(child: AiCore()),
+                  SizedBox(width: 12),
+                  GuardianShield(),
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: NavCard(
-                        tag: 'trade',
-                        icon: Icons.show_chart,
-                        label: 'Trade',
-                        color: Colors.blueAccent,
-                        onTap: () => _onNavTapped(0),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: NavCard(
-                        tag: 'wallet',
-                        icon: Icons.account_balance_wallet,
-                        label: 'Wallet',
-                        color: Colors.tealAccent,
-                        onTap: () => _onNavTapped(1),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: NavCard(
-                        tag: 'ai',
-                        icon: Icons.memory,
-                        label: 'AI',
-                        color: Colors.purpleAccent,
-                        onTap: () => _onNavTapped(2),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: NavCard(
-                        tag: 'settings',
-                        icon: Icons.settings,
-                        label: 'Settings',
-                        color: Colors.orangeAccent,
-                        onTap: () => _onNavTapped(3),
-                      ),
-                    ),
-                  ],
+            ),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              child: SizedBox(
+                height: 150,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: symbols.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 12),
+                  itemBuilder: (context, index) {
+                    final sym = symbols[index];
+                    return MarketCard(
+                      symbol: sym,
+                      price: 1234.56 + index.toDouble(),
+                      confidence: 70 - index * 5,
+                      trendUp: index % 2 == 0,
+                    );
+                  },
                 ),
               ),
-            ],
-          ),
+            ),
+            const Spacer(),
+          ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black87,
-        currentIndex: _selectedIndex,
-        onTap: _onNavTapped,
-        selectedItemColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.white30,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'Trade'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), label: 'Wallet'),
-          BottomNavigationBarItem(icon: Icon(Icons.memory), label: 'AI'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
-        ],
-      ),
+      bottomNavigationBar: const BottomNav(),
     );
   }
 }
