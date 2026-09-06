@@ -1,33 +1,21 @@
 import 'package:flutter/material.dart';
+import 'screens/home_screen.dart';
+import 'themes.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ReignTradeApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ReignTradeApp extends StatelessWidget {
+  const ReignTradeApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'REIGN TRADE AI',
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('REIGN TRADE AI'),
-      ),
-      body: const Center(
-        child: Text('Welcome to REIGN TRADE AI — no trading logic yet'),
-      ),
+      title: 'REIGN OS V1',
+      theme: AppTheme.theme,
+      home: const HomeScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
