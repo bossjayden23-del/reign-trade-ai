@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'screens/home_screen.dart';
 import 'themes.dart';
 import 'providers/market_provider.dart';
+import 'ai/ai_provider.dart';
 
 void main() {
   runApp(const ReignTradeApp());
@@ -13,8 +14,18 @@ class ReignTradeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<MarketProvider>(
-      create: (_) => MarketProvider()..init(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<MarketProvider>(create: (_) => MarketProvider()..init()),
+        ChangeNotifierProxyProvider<MarketProvider, AiProvider>(
+          create: (_) => AiProvider(),
+          update: (_, market, ai) {
+            ai ??= AiProvider();
+            ai.attachMarketProvider(market);
+            return ai;
+          },
+        ),
+      ],
       child: MaterialApp(
         title: 'REIGN OS V1',
         theme: AppTheme.theme,
